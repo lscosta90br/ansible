@@ -1,0 +1,6 @@
+- name: removendo grupo do usuario ansible-user
+  user: 
+    name: ansible-user
+    groups: 
+      - docker 
+    append: no #com essa opção "no" somente permanecerá os grupos escrito acima
