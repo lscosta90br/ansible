@@ -1,5 +1,21 @@
 - name: create ansible user
-  user: name=ansible uid=900
+  user: 
+    name: ansible
+    password: '???'
+    uid: 900
+    group: 
+      - docker
+      - sudo
+    state: present
+    shell: /bin/bash       # Defaults to /bin/bash
+    system: no             # Defaults to no
+    createhome: yes        # Defaults to yes
+    home: /home/ansible    # Defaults to /home/<username>
+
+
+
+
+
 
 # - name: copy sudoers_ansible
 #   copy: src=files/sudoers_ansible dest=/etc/sudoers.d/ansible owner=root group=root mode=0440
