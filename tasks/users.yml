@@ -1,7 +1,7 @@
 - name: create ansible user
   user: 
     name: ansible-user
-    password: secret
+    password: '$6$5pEjdN5uH//p0b.g$x9spI96QmKe1l8gRRSWC7vJb5i5Ci7I2BcS6wbUqYJqjIcRvgWuGp3T0JjX1eGqhDc44uAvlIk/dqNMQBj7b30'
     uid: 900
     group: 
       - docker
