@@ -1,0 +1,132 @@
+{% extends "all/base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+  {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+      </div>
+      {% endfor %}
+  {% endif %}
+   </div>
+</div>
+<!-- <div class="mr-auto mb-3">
+  <button style="position: absolute; right: 4;" type="button" class="btn btn-primary">Primary</button>
+</div> -->
+<div class="mb-1 row">
+  <div class="col">
+    <h3 class="one"></h3>
+  </div>
+  <div class="col-auto">
+    <!-- <button class='btn btn-lg ' style='background-color:transparent;'> 
+      <div style='text-align:center;'><i class="fa fa-plus"></i></div>  
+        Adicione
+    </button> -->
+    <a class="btn btn-info btn-sm mt-1 mb-1" 
+    href="{% url 'porta-create'%}">+ Create</a>
+  </div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Andar</th>
+            <th scope="col">Porta unitaria</th>
+            <th scope="col">Porta-1 VC</th>
+            <th scope="col">Porta-2 VC</th>
+            <th scope="col">Porta inicio</th>
+            <th scope="col">Porta final </th>
+            <th scope="col">Observação</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Feito em</th>
+            <th scope="col">Ações</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <!-- <th scope="col">Feito em</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for porta in portas %}
+        <tr>
+            <th scope="row">{{ porta.id }}</th>
+            <td>{{ porta.modelo }}</td>
+            <td>{{ porta.andar }}º</td>
+                                
+            <!-- Porta unitaria -->
+            {% if porta.modelo == 'telefone voice unitário' %}
+            <td>{{ porta.porta_1 }}</td>
+            {% else %}
+            <td> - </td>
+            {% endif %}
+            <!-- Porta-1 VC -->
+            {% if porta.modelo == 'video conferência' %}
+            <td>{{ porta.porta_1 }}</td>
+            {% else %}
+            <td> - </td>
+            {% endif %}
+            <!-- Porta-2 VC -->
+            {% if porta.modelo == 'video conferência' %}
+            <td>{{ porta.porta_2 }}</td>
+            {% else %}
+            <td> - </td>
+            {% endif %}
+            <!-- Porta inicio -->
+            {% if porta.modelo == 'telefone voice intervalo' %}
+            <td>{{ porta.porta_1 }}</td>
+            {% else %}
+            <td> - </td>
+            {% endif %}
+            <!-- Porta final -->
+            {% if porta.modelo == 'telefone voice intervalo' %}
+            <td>{{ porta.porta_2 }}</td>
+            {% else %}
+            <td> - </td>
+            {% endif %}
+            <td> {{ porta.observacao }}</td>
+            <td>{{ porta.autor }}</td>
+            <!-- HH:mm -d \d\e F \d\e Y -->
+            <td>{{ porta.data_publicacao|date:"Y-m-d H:m:s" }}</td>
+            <td> 
+                <a class="btn btn-danger btn-sm mt-1 mb-1" 
+                href="{% url 'porta-delete' porta.id %}">Delete</a>
+            </td> 
+            <td>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" 
+                href="{% url 'porta-update' porta.id %}">Update</a>
+            </td>
+            <td> 
+              <a class="btn btn-primary btn-sm mt-1 mb-1" 
+              href="{% url 'porta-gera' porta.id %}">Gera</a>
+          </td> 
+          </tr>
+        {% empty %}
+        <tr>
+          <td colspan="12" class="text-center bg-secondary">Não há portas configuradas</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{%if is_paginated%}
+  {% if page_obj.has_previous%}
+    <a class="btn btn-outline-info mb-4" href="?page=1">Primeiro</a>
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Proximo</a>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Próximo</a>
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Último</a>
+  {% endif %}
+{% endif %}
+{% endblock content %}

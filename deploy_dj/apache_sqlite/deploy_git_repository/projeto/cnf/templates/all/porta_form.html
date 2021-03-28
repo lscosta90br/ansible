@@ -1,0 +1,31 @@
+{% extends "all/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post" novalidate>
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+      {{ form.modelo|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+      {{ form.andar|as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4 mb-0">
+      {{ form.porta_1|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+      {{ form.porta_2|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+      {{ form.autor|as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-group col-md-12 mb-0">
+    {{ form.observacao|as_crispy_field }}
+  </div>
+  <button type="submit" class="btn btn-success">Salvar</button>
+</form>
+{% endblock content %}

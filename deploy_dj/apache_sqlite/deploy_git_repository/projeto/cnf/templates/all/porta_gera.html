@@ -1,0 +1,72 @@
+{% extends "all/base.html" %}
+{% block content %}
+
+
+
+{% if porta.modelo == 'video conferência' %}
+<H2>Script gerado para: {{porta.modelo}} </H2>
+    vlan 2 {{porta.andar}} <br/>
+    no untagged ethernet {{ porta.porta_1 }} <br/>
+    no untagged ethernet {{ .porta.porta_2 }} <br/>
+    ! <br/>
+    vlan 3{{porta.andar}} <br/>
+    untagged ethernet {{porta.porta_1 }} <br/>
+    untagged ethernet {{ porta.porta_2 }} <br/>
+    ! <br/>
+    exit <br/>
+    ! <br/>
+    interface ethernet {{ porta.porta_1 }} <br/>
+    no port security <br/>
+    no age 1 absolute <br/>
+    port-name VC <br/>
+    enable <br/>
+    ! <br/>
+    interface ethernet {{ porta.porta_2 }} <br/>
+    no port security <br/>
+    no age 1 absolute <br/>
+    port-name VC <br/>
+    enable <br/>
+{% endif %}
+
+{% if porta.modelo == 'telefone voice unitário' %}
+    <H2>Script gerado para: {{porta.modelo}} </H2>
+    ! ##### PORTA {{porta.porta_1}} VLAN_VOICE:3{{porta.andar}} #####<br/>
+    vlan 2{{porta.andar}} <br/>
+    no untagged ethernet {{porta.porta_1}}<br/>
+    tagged eth {{porta.porta_1}}<br/>
+    !<br/>
+    vlan 3{{porta.andar}}<br/>
+    tagged eth {{porta.porta_1}}<br/>
+    !<br/>
+    interface ethernet {{porta.porta_1}}<br/>
+    dual-mode 2{{porta.andar}}<br/>
+    voice-vlan 3{{porta.andar}}<br/>
+    inline power<br/>
+    disable<br/>
+    enable<br/>
+    lldp med network-policy application voice tagged vlan 3{{porta.andar}} priority 5 dscp 46 ports ethe {{porta.porta_1}}<br/>
+{% endif %}
+
+
+{% if porta.modelo == 'telefone voice intervalo' %}
+    <H2>Script gerado para: {{porta.modelo}} </H2>
+    ! ##### INICIO DE PORTA {{porta.porta_1}} to {{porta.porta_2}} VLAN_andar: 2{{porta.andar}} #####<br/>
+    vlan 2{{porta.andar}} <br/>
+    no untagged ethernet {{porta.porta_1}} to {{porta.porta_2}}<br/>
+    tagged eth {{porta.porta_1}} to {{porta.porta_2}}<br/>
+    !<br/>
+    vlan 3{{porta.andar}}<br/>
+    tagged eth {{porta.porta_1}} to {{porta.porta_2}}<br/>
+    !<br/>
+    interface ethernet {{porta.porta_1}} to {{porta.porta_2}}<br/>
+    dual-mode 2{{porta.andar}}<br/>
+    voice-vlan 3{{porta.andar}}<br/>
+    inline power<br/>
+    disable<br/>
+    enable<br/>
+    lldp med network-policy application voice tagged vlan 3{{porta.andar}} priority 5 dscp 46 ports ethernet {{porta.porta_1}} to {{porta.porta_2}}<br/>
+{% endif %}
+
+
+{% endblock content %}
+
